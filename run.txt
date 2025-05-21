@@ -1,0 +1,7 @@
+roscore
+
+source ./devel/setup.bash
+roslaunch biped_gazebo launchgazebo.launch
+
+source ./devel/setup.bash
+rosrun biped_control biped_ctrl

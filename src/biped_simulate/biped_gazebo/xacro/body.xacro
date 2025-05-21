@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, xyz="-0.0069577 -4.092E-06 0.083507please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="biped_gazebo">
+
+  
+  <link
+    name="trunk">
+    <inertial>
+      <origin
+        xyz="-0.0069577 -4.092E-06 0"
+        rpy="0 0 0" />
+      <mass
+        value="5.3881" />
+      <inertia
+        ixx="0.045616"
+        ixy="-2.279E-06"
+        ixz="2.4007E-07"
+        iyy="0.029371"
+        iyz="1.1002E-10"
+        izz="0.074965" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://biped_gazebo/meshes/trunk.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+     <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.290 0.389 0.648"/>
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="r_hip_1">
+    <inertial>
+      <origin
+        xyz="0.033316 4.3525E-12 0.04091"
+        rpy="0 0 0" />
+      <mass
+        value="0.06082" />
+      <inertia
+        ixx="5.6576E-05"
+        ixy="1.3981E-14"
+        ixz="4.5222E-06"
+        iyy="0.00010609"
+        iyz="7.7058E-15"
+        izz="0.00010293" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://biped_gazebo/meshes/r_hip_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.69804 0.69804 0.69804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://biped_gazebo/meshes/r_hip_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="r_j0"
+    type="revolute">
+    <origin
+      xyz="0 -0.154999999999996 -0.232487666753022"
+      rpy="0 -0.338000462941209 0" />
+    <parent
+      link="trunk" />
+    <child
+      link="r_hip_1" />
+    <axis
+      xyz="0.331601353840647 0 0.943419600247446" />
+    <dynamics damping="${damping}" friction="${friction}"/>
+     <limit effort="${joint_torque_max}" velocity="${joint_velocity_max}" lower="${hip_min*PI/180.0}" upper="${hip_max*PI/180.0}"/>
+  </joint>
+  <link
+    name="r_hip_2">
+    <inertial>
+      <origin
+        xyz="0.010787 -0.00079176 -0.0038183"
+        rpy="0 0 0" />
+      <mass
+        value="0.03831" />
+      <inertia
+        ixx="1.8449E-05"
+        ixy="-3.2225E-07"
+        ixz="1.4639E-05"
+        iyy="5.5824E-05"
+        iyz="1.15E-07"
+        izz="5.499E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://biped_gazebo/meshes/r_hip_2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.69804 0.69804 0.69804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://biped_gazebo/meshes/r_hip_2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="r_j1"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="r_hip_1" />
+    <child
+      link="r_hip_2" />
+    <axis
+      xyz="0.943419600247446 0 -0.331601353840647" />
+    <dynamics damping="${damping}" friction="${friction}"/>
+     <limit effort="${joint_torque_max}" velocity="${joint_velocity_max}" lower="${hip_min*PI/180.0}" upper="${hip_max*PI/180.0}"/>
+  </joint>
+  <link
+    name="r_thigh">
+    <inertial>
+      <origin
+        xyz="-0.0030975 0.00070719 -0.23726"
+        rpy="0 0 0" />
+      <mass
+        value="0.1803" />
+      <inertia
+        ixx="0.0022151"
+        ixy="-8.068E-06"
+        ixz="0.00011521"
+        iyy="0.0021591"
+        iyz="3.0782E-05"
+        izz="0.00036544" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://biped_gazebo/meshes/r_thigh.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.69804 0.69804 0.69804 1" />
+      </material>
+    </visual>
+   <collision>
+      <origin
+        xyz="0 0 -0.26"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.134 0.11 0.52"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="r_j2"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="r_hip_2" />
+    <child
+      link="r_thigh" />
+    <axis
+      xyz="0 1 0" />
+    <dynamics damping="${damping}" friction="${friction}"/>
+     <limit effort="${joint_torque_max}" velocity="${joint_velocity_max}" lower="${hip_min*PI/180.0}" upper="${hip_max*PI/180.0}"/>
+  </joint>
+  <link
+    name="r_shank">
+    <inertial>
+      <origin
+        xyz="0.012918 -0.001006 -0.13905"
+        rpy="0 0 0" />
+      <mass
+        value="0.094371" />
+      <inertia
+        ixx="0.00074231"
+        ixy="-1.0243E-06"
+        ixz="5.6781E-05"
+        iyy="0.0007242"
+        iyz="-4.8112E-06"
+        izz="8.7145E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://biped_gazebo/meshes/r_shank.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.69804 0.69804 0.69804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 -0.187"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.115 0.092 0.374"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="r_j3"
+    type="revolute">
+    <origin
+      xyz="0 0 -0.459999999999993"
+      rpy="0 0.761661685570331 0" />
+    <parent
+      link="r_thigh" />
+    <child
+      link="r_shank" />
+    <axis
+      xyz="0 1 0" />
+    <dynamics damping="${damping}" friction="${friction}"/>
+     <limit effort="${joint_torque_max}" velocity="${joint_velocity_max}" lower="${hip_min*PI/180.0}" upper="${hip_max*PI/180.0}"/>
+  </joint>
+  <link
+    name="r_ankle">
+    <inertial>
+      <origin
+        xyz="-0.00042543 0.00022181 -1.7557E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.013946" />
+      <inertia
+        ixx="2.0724E-06"
+        ixy="-1.3161E-09"
+        ixz="-9.2509E-09"
+        iyy="6.7476E-06"
+        iyz="-5.4313E-12"
+        izz="7.2632E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://biped_gazebo/meshes/r_ankle.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.69804 0.69804 0.69804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://biped_gazebo/meshes/r_ankle.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="r_j4"
+    type="revolute">
+    <origin
+      xyz="0 0 -0.369999264544103"
+      rpy="0 -0.419926218029841 0" />
+    <parent
+      link="r_shank" />
+    <child
+      link="r_ankle" />
+    <axis
+      xyz="0 1 0" />
+       <dynamics damping="${damping}" friction="${friction}"/>
+        <limit effort="${joint_torque_max}" velocity="${joint_velocity_max}" lower="${hip_min*PI/180.0}" upper="${hip_max*PI/180.0}"/>
+  </joint>
+  <link
+    name="r_foot">
+    <inertial>
+      <origin
+        xyz="0.029031 -1.0458E-05 -0.09403"
+        rpy="0 0 0" />
+      <mass
+        value="0.076977" />
+      <inertia
+        ixx="5.1121E-05"
+        ixy="-2.3378E-08"
+        ixz="2.0448E-05"
+        iyy="0.00037216"
+        iyz="3.2135E-09"
+        izz="0.0003964" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://biped_gazebo/meshes/r_foot.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.69804 0.69804 0.69804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0.0245 0 -0.0615"
+        rpy="0 0 0" />
+      <geometry>
+       <box size="0.257 0.098 0.123"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="r_j5"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="r_ankle" />
+    <child
+      link="r_foot" />
+    <axis
+      xyz="1 0 0" />
+    <dynamics damping="${damping}" friction="${friction}"/>
+     <limit effort="${joint_torque_max}" velocity="${joint_velocity_max}" lower="${hip_min*PI/180.0}" upper="${hip_max*PI/180.0}"/>
+  </joint>
+  <link
+    name="l_hip_1">
+    <inertial>
+      <origin
+        xyz="0.033316 4.3575E-12 0.04091"
+        rpy="0 0 0" />
+      <mass
+        value="0.06082" />
+      <inertia
+        ixx="5.6576E-05"
+        ixy="1.3981E-14"
+        ixz="4.5222E-06"
+        iyy="0.00010609"
+        iyz="7.7058E-15"
+        izz="0.00010293" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://biped_gazebo/meshes/l_hip_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.69804 0.69804 0.69804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://biped_gazebo/meshes/l_hip_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="l_j0"
+    type="revolute">
+    <origin
+      xyz="0 0.155000000000001 -0.232487666753018"
+      rpy="0 -0.338000462941113 0" />
+    <parent
+      link="trunk" />
+    <child
+      link="l_hip_1" />
+    <axis
+      xyz="0.331601353840557 0 0.943419600247477" />
+    <dynamics damping="${damping}" friction="${friction}"/>
+     <limit effort="${joint_torque_max}" velocity="${joint_velocity_max}" lower="${hip_min*PI/180.0}" upper="${hip_max*PI/180.0}"/>
+  </joint>
+  <link
+    name="l_hip_2">
+    <inertial>
+      <origin
+        xyz="0.010787 0.00079176 -0.0038183"
+        rpy="0 0 0" />
+      <mass
+        value="0.03831" />
+      <inertia
+        ixx="1.8449E-05"
+        ixy="3.2225E-07"
+        ixz="1.4639E-05"
+        iyy="5.5824E-05"
+        iyz="-1.15E-07"
+        izz="5.499E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://biped_gazebo/meshes/l_hip_2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.69804 0.69804 0.69804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://biped_gazebo/meshes/l_hip_2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="l_j1"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="l_hip_1" />
+    <child
+      link="l_hip_2" />
+    <axis
+      xyz="0.943419600247477 0 -0.331601353840556" />
+    <dynamics damping="${damping}" friction="${friction}"/>
+     <limit effort="${joint_torque_max}" velocity="${joint_velocity_max}" lower="${hip_min*PI/180.0}" upper="${hip_max*PI/180.0}"/>
+  </joint>
+  <link
+    name="l_thigh">
+    <inertial>
+      <origin
+        xyz="-0.0030975 -0.00070717 -0.23726"
+        rpy="0 0 0" />
+      <mass
+        value="0.1803" />
+      <inertia
+        ixx="0.0022151"
+        ixy="8.068E-06"
+        ixz="0.00011521"
+        iyy="0.0021591"
+        iyz="-3.0782E-05"
+        izz="0.00036544" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://biped_gazebo/meshes/l_thigh.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.69804 0.69804 0.69804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 -0.26"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.134 0.11 0.52"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="l_j2"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="l_hip_2" />
+    <child
+      link="l_thigh" />
+    <axis
+      xyz="0 1 0" />
+    <dynamics damping="${damping}" friction="${friction}"/>
+     <limit effort="${joint_torque_max}" velocity="${joint_velocity_max}" lower="${hip_min*PI/180.0}" upper="${hip_max*PI/180.0}"/>
+  </joint>
+  <link
+    name="l_shank">
+    <inertial>
+      <origin
+        xyz="0.012918 0.0010059 -0.13905"
+        rpy="0 0 0" />
+      <mass
+        value="0.094371" />
+      <inertia
+        ixx="0.00074231"
+        ixy="1.0243E-06"
+        ixz="5.6781E-05"
+        iyy="0.0007242"
+        iyz="4.8113E-06"
+        izz="8.7145E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://biped_gazebo/meshes/l_shank.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.69804 0.69804 0.69804 1" />
+      </material>
+    </visual>
+       <collision>
+      <origin
+        xyz="0 0 -0.187"
+        rpy="0 0 0" />
+      <geometry>
+       <box size="0.115 0.092 0.374"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="l_j3"
+    type="revolute">
+    <origin
+      xyz="0 0 -0.46"
+      rpy="0 0.761661685570177 0" />
+    <parent
+      link="l_thigh" />
+    <child
+      link="l_shank" />
+    <axis
+      xyz="0 1 0" />
+    <dynamics damping="${damping}" friction="${friction}"/>
+     <limit effort="${joint_torque_max}" velocity="${joint_velocity_max}" lower="${hip_min*PI/180.0}" upper="${hip_max*PI/180.0}"/>
+  </joint>
+  <link
+    name="l_ankle">
+    <inertial>
+      <origin
+        xyz="-0.00042543 -0.00022181 -1.7557E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.013946" />
+      <inertia
+        ixx="2.0724E-06"
+        ixy="1.3161E-09"
+        ixz="-9.2509E-09"
+        iyy="6.7476E-06"
+        iyz="5.4313E-12"
+        izz="7.2632E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://biped_gazebo/meshes/l_ankle.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.77647 0.75686 0.73725 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://biped_gazebo/meshes/l_ankle.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="l_j4"
+    type="revolute">
+    <origin
+      xyz="0 0 -0.369999264544098"
+      rpy="0 -0.419926218029782 0" />
+    <parent
+      link="l_shank" />
+    <child
+      link="l_ankle" />
+    <axis
+      xyz="0 1 0" />
+       <dynamics damping="${damping}" friction="${friction}"/>
+        <limit effort="${joint_torque_max}" velocity="${joint_velocity_max}" lower="${hip_min*PI/180.0}" upper="${hip_max*PI/180.0}"/>
+  </joint>
+  <link
+    name="l_foot">
+    <inertial>
+      <origin
+        xyz="0.02903 1.0533E-05 -0.094029"
+        rpy="0 0 0" />
+      <mass
+        value="0.076977" />
+      <inertia
+        ixx="5.1121E-05"
+        ixy="2.2836E-08"
+        ixz="2.0449E-05"
+        iyy="0.00037216"
+        iyz="-3.2901E-09"
+        izz="0.0003964" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://biped_gazebo/meshes/l_foot.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.69804 0.69804 0.69804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0.0245 0 -0.0615"
+        rpy="0 0 0" />
+      <geometry>
+       <box size="0.257 0.098 0.123"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="l_j5"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="l_ankle" />
+    <child
+      link="l_foot" />
+    <axis
+      xyz="1 0 0" />
+     <dynamics damping="${damping}" friction="${friction}"/>
+      <limit effort="${joint_torque_max}" velocity="${joint_velocity_max}" lower="${hip_min*PI/180.0}" upper="${hip_max*PI/180.0}"/>
+  </joint>
+   <link name="lcontactpoint">
+    <inertial>
+      <mass value="0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+    </inertial>
+
+  </link>
+  <joint name="lcontact_fixed_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 -0.123"/>
+    <parent link="l_foot"/>
+    <child link="lcontactpoint"/>
+  </joint>
+
+   <link name="rcontactpoint">
+    <inertial>
+      <mass value="0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>=
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+    </inertial>
+  </link>
+  <joint name="rcontact_fixed_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 -0.123"/>
+    <parent link="r_foot"/>
+    <child link="rcontactpoint"/>
+  </joint>
+  
+</robot>

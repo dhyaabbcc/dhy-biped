@@ -1,0 +1,69 @@
+biped_gazebo:
+    # Publish all joint states -----------------------------------
+    joint_state_controller:
+        type: joint_state_controller/JointStateController
+        publish_rate: 1000  
+
+    # L Controllers ---------------------------------------
+    L_j0_controller:
+        type: unitree_legged_control/UnitreeJointController
+        joint: l_j0
+        pid: {p: 100.0, i: 0.0, d: 5.0}
+    
+    L_j1_controller:
+        type: unitree_legged_control/UnitreeJointController
+        joint: l_j1
+        pid: {p: 100.0, i: 0.0, d: 5.0}
+
+    L_j2_controller:
+        type: unitree_legged_control/UnitreeJointController
+        joint: l_j2
+        pid: {p: 100.0, i: 0.0, d: 5.0}
+
+
+    L_j3_controller:
+        type: unitree_legged_control/UnitreeJointController
+        joint: l_j3
+        pid: {p: 300.0, i: 0.0, d: 8.0}
+
+    L_j4_controller:
+        type: unitree_legged_control/UnitreeJointController
+        joint: l_j4
+        pid: {p: 300.0, i: 0.0, d: 8.0}
+    
+    L_j5_controller:
+        type: unitree_legged_control/UnitreeJointController
+        joint: l_j5
+        pid: {p: 300.0, i: 0.0, d: 8.0}
+
+
+    # R Controllers ---------------------------------------
+    R_j0_controller:
+        type: unitree_legged_control/UnitreeJointController
+        joint: r_j0
+        pid: {p: 100.0, i: 0.0, d: 5.0}
+    
+    R_j1_controller:
+        type: unitree_legged_control/UnitreeJointController
+        joint: r_j1
+        pid: {p: 100.0, i: 0.0, d: 5.0}
+
+    R_j2_controller:
+        type: unitree_legged_control/UnitreeJointController
+        joint: r_j2
+        pid: {p: 100.0, i: 0.0, d: 5.0}
+
+    R_j3_controller:
+        type: unitree_legged_control/UnitreeJointController
+        joint: r_j3
+        pid: {p: 300.0, i: 0.0, d: 8.0}
+
+    R_j4_controller:
+        type: unitree_legged_control/UnitreeJointController
+        joint: r_j4
+        pid: {p: 300.0, i: 0.0, d: 8.0}
+    
+    R_j5_controller:
+        type: unitree_legged_control/UnitreeJointController
+        joint: r_j5
+        pid: {p: 300.0, i: 0.0, d: 8.0}

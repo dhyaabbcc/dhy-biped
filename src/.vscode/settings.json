@@ -1,0 +1,12 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/xsy/Desktop/catkin_bipedl/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages",
+        "/usr/local/lib/python2.7/site-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/xsy/Desktop/catkin_bipedl/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages",
+        "/usr/local/lib/python2.7/site-packages"
+    ]
+}

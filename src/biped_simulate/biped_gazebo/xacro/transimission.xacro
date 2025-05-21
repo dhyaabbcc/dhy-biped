@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    
+
+        <transmission name="rj0_tran">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="r_j0">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="r_j0_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+          <transmission name="rj1_tran">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="r_j1">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="r_j1_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+           <transmission name="rj2_tran">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="r_j2">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="r_j2_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+           <transmission name="rj3_tran">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="r_j3">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="r_j3_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+           <transmission name="rj4_tran">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="r_j4">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="r_j4_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+           <transmission name="rj5_tran">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="r_j5">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="r_j5_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+
+          <transmission name="lj0_tran">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="l_j0">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="l_j0_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+          <transmission name="lj1_tran">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="l_j1">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="l_j1_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+           <transmission name="lj2_tran">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="l_j2">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="l_j2_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+           <transmission name="lj3_tran">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="l_j3">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="l_j3_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+           <transmission name="lj4_tran">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="l_j4">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="l_j4_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+           <transmission name="lj5_tran">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="l_j5">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="l_j5_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+
+       
+</robot>
