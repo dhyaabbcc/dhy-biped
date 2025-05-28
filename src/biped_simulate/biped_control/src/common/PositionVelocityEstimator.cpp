@@ -11,3 +11,19 @@ void CheaterPositionVelocityEstimator::run() {
   this->_stateEstimatorData.result->vBody=
   this->_stateEstimatorData.result->rBody * this->_stateEstimatorData.result->vWorld;
 }
+
+//检测当前支撑情况
+std::string CheaterPositionVelocityEstimator::supportContact() {
+  bool leftContact = _stateEstimatorData.lowState->feettwist[2];
+  bool rightContact = _stateEstimatorData.lowState->feettwist[8];
+
+  if (leftContact && rightContact) {
+    return "DOUBLE";
+  } else if (leftContact) {
+    return "LEFT";
+  } else if (rightContact) {
+    return "RIGHT";
+  } else {
+    return "NONE";  // 两脚都不接触地面（如腾空）
+  }
+}

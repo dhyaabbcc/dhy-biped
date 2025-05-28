@@ -6,7 +6,7 @@
 #include "cppTypes.h"
 #include "Math/orientation_tools.h"
 #include "wbc_data_flow.h"
-#include "../../robotwrapper/robotwrapper.h"
+#include "../../robotwrapper/MyWrapper.hpp"
 
 
 #define PINOCCHIO_BIPED "src/biped_simulate/biped_gazebo/urdf/biped_gazebo.urdf"
@@ -17,7 +17,7 @@
 class Biped
 {
 public:
-    Biped(std::shared_ptr<RobotWrapper>rptr,std::shared_ptr<pinocchio::Data>dptr):_Dyptr(rptr),_Dataptr(dptr)
+    Biped(std::shared_ptr<MyWrapper>rptr,std::shared_ptr<pinocchio::Data>dptr):_Dyptr(rptr),_Dataptr(dptr)
     {
         setBiped();
         dataflow=new bipWbcCtrlData();
@@ -63,9 +63,19 @@ public:
     double leg_offset_z;
     double mass;
     double waistwidth;
+    double leftAnkleOffset;
     std::vector<Vec3<double>> axis;
     std::vector<ori::CoordinateAxis> axisname;
     std::array<double,6> Initialq{0,0,-0.338,0.7616,-0.425,0};
+
+    //control config
+    double comHeight=0.85;
+    double maxCoMHeight=0.90;
+    double minCoMHeight=0.65;
+    double postureStiffness=1.0;
+    double postureWeight=10.0;
+
+
     Vec3<double> getHipLocation(int leg)
     {
         assert(leg >= 0 && leg < 2);
@@ -103,7 +113,9 @@ public:
         return pHip;
     };
 
-    std::shared_ptr<RobotWrapper> _Dyptr;
+
+    
+    std::shared_ptr<MyWrapper> _Dyptr;
     std::shared_ptr<pinocchio::Data> _Dataptr;
 protected:
   

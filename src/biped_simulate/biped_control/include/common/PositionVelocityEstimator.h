@@ -13,5 +13,7 @@ class CheaterPositionVelocityEstimator : public GenericEstimator{
   public:
     virtual void run();
     virtual void setup() {};
+
+    std::string supportContact();
 };
 #endif

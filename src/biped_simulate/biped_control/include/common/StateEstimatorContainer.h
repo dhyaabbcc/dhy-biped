@@ -150,6 +150,17 @@ class StateEstimatorContainer {
         }
         _estimators.clear();
     }
+
+    template<typename EstimatorType>
+    EstimatorType* findEstimator() {
+    for (auto* est : _estimators) {
+        if (auto* casted = dynamic_cast<EstimatorType*>(est)) {
+        return casted;
+        }
+    }
+    return nullptr;
+    }
+
   private:
     std::vector<GenericEstimator*> _estimators;
     Vec4<double> _phase;

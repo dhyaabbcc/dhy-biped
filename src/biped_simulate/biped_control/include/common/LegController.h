@@ -97,6 +97,9 @@ public:
     void updatePosctrl(LowlevelCmd *cmd);
     void updateTorque(LowlevelCmd *cmd, const Vec6<double> &Rt, const Vec6<double> &Lt);
     void updatePose(LowlevelCmd *cmd, const Vec6<double> &Rt, const Vec6<double> &Lt);
+
+    
+
     std::array<Vec6<double>, 2> Feettwist;
     /**
      * @brief 直接从geometry msg 获取的feetpose 为rj5,lj5处的位置
