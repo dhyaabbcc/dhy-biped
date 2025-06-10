@@ -5,7 +5,6 @@
 #include <vector>
 #include "cppTypes.h"
 #include "Math/orientation_tools.h"
-#include "wbc_data_flow.h"
 #include "../../robotwrapper/MyWrapper.hpp"
 
 
@@ -20,11 +19,9 @@ public:
     Biped(std::shared_ptr<MyWrapper>rptr,std::shared_ptr<pinocchio::Data>dptr):_Dyptr(rptr),_Dataptr(dptr)
     {
         setBiped();
-        dataflow=new bipWbcCtrlData();
     }
     ~Biped()
     {
-        delete dataflow;
     }
     void setBiped()
     {
@@ -119,8 +116,6 @@ public:
     std::shared_ptr<pinocchio::Data> _Dataptr;
 protected:
   
-    bipWbcCtrlData* dataflow;
-    friend class ConvexMPCLocomotion ;
     friend class FSMState_Tstand;
     friend class FSMState_Walking;
 };

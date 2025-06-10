@@ -10,14 +10,20 @@
 #include "PositionVelocityEstimator.h"
 #include "OrientationEstimator.h"
 #include "../messages/LowlevelState.h"
+#include "../../robotwrapper/MyWrapper.hpp"
+#include "Biped.h"
 
 class FloatingBaseObserver {
 public:
   FloatingBaseObserver(LowlevelState* state, std::shared_ptr<StateEstimatorContainer> estimator,
-                       const pinocchio::Model& controlModel, pinocchio::Data& controlData);
+                       Biped &robot);
 
   void reset(const pinocchio::SE3& X_0_fb);
   void run();
+
+  void setLeftFootRatio(double leftFootRatio){
+    leftFootRatio_=leftFootRatio;
+  }
 
   Eigen::Matrix3d orientation() const { return orientation_; }
   Eigen::Vector3d position() const { return position_; }
@@ -36,6 +42,6 @@ private:
   Eigen::Vector3d position_;
   double leftFootRatio_ = 0.5;
 
-  const pinocchio::Model& controlModel_;
-  pinocchio::Data& controlData_;
+  const pinocchio::Model &controlModel_;
+  Biped &robot_;
 };

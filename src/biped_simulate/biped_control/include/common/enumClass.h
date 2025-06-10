@@ -27,17 +27,6 @@ enum class FSMMode{
     CHANGE
 };
 
-enum class FSMStateName{
-    // EXIT,
-    INVALID,
-    PASSIVE,
-    PDSTAND,
-    QPSTAND,
-    WALKING,
-    PUSHING,
-    PROBE,
-    DEBUG,       // slam
-};
 
 namespace linkID {
     constexpr size_t RLEG = 0;   // Front Right Foot

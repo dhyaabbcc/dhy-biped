@@ -2,8 +2,9 @@
 #include "Biped.h"
 #include <algorithm>
 
-struct FootstepPlan
+class FootstepPlan
 {
+public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
     void complete(const Sole & sole);

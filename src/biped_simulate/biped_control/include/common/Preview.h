@@ -2,8 +2,10 @@
 
 #include "Pendulum.h"
 
-struct Preview
+class Preview
 {
+public:
+
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   Preview();

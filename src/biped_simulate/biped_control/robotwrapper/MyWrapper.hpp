@@ -13,7 +13,12 @@
 #include "pinocchio/parsers/urdf.hpp"
 #include <pinocchio/math/rpy.hpp>
 
+#include <pinocchio/spatial/fwd.hpp>
+
+#include "../include/common/cppTypes.h"
+
 #include <Eigen/Core>
+
  
 class MyWrapper : public tsid::robots::RobotWrapper {
 public:

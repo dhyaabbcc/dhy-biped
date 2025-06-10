@@ -131,7 +131,7 @@ void ModelPredictiveControl::buildQP() {
       bineq_;
 }
 
-void ModelPredictiveControl::solve() {
+bool ModelPredictiveControl::solve() {
   //1. 构建QP
   computeZMPRef();
 
@@ -152,11 +152,11 @@ void ModelPredictiveControl::solve() {
   int nWSR = 50;
 
   //3. 准备QP输入参数
-  real_t *H_qp = H_.data();
-  real_t *g_qp = g_.data();
-  real_t *A_data = A_qp.data();
-  real_t *lbA_data = lbA_qp.data();
-  real_t *ubA_data = ubA_qp.data();
+  qpOASES::real_t *H_qp = H_.data();
+  qpOASES::real_t *g_qp = g_.data();
+  qpOASES::real_t *A_data = A_qp.data();
+  qpOASES::real_t *lbA_data = lbA_qp.data();
+  qpOASES::real_t *ubA_data = ubA_qp.data();
 
   // 4. 求解QP问题
   returnValue status = qp.init(
@@ -170,7 +170,7 @@ void ModelPredictiveControl::solve() {
   {
       std::cout << "QP求解失败! 错误码: " << status << std::endl;
       solution_.reset(new Preview());
-      return;
+      return false;
   }
 
   //5. 处理结果
@@ -185,6 +185,7 @@ void ModelPredictiveControl::solve() {
 
   // 创建新的Preview对象
   solution_.reset(new Preview(trajectory, control));
+  return true;
 }
 
 
@@ -385,7 +386,7 @@ void ModelPredictiveControl::updateZMPCost()
   zmpCost_.weight=zmpWeight_;
 }
 
-Eigen::MatrixXd autoSpanQ(const Eigen::MatrixXd& zmpFromState, int horizon) {
+Eigen::MatrixXd ModelPredictiveControl::autoSpanQ(const Eigen::MatrixXd& zmpFromState, int horizon) {
     const int nz = zmpFromState.rows();   // ZMP 维度（2）
     const int nx = zmpFromState.cols();   // 状态维度（13）
     
@@ -398,7 +399,7 @@ Eigen::MatrixXd autoSpanQ(const Eigen::MatrixXd& zmpFromState, int horizon) {
     return Q;
 }
 
-Eigen::VectorXd autoSpanC(const Eigen::VectorXd& zmpRef, int horizon) {
+Eigen::VectorXd ModelPredictiveControl::autoSpanC(const Eigen::VectorXd& zmpRef, int horizon) {
     const int nz = zmpRef.rows();   // ZMP 维度（2）
     
     Eigen::VectorXd c = Eigen::VectorXd::Zero(nz * horizon);

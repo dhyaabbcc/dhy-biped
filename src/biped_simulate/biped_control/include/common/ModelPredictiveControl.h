@@ -34,9 +34,15 @@ struct ConstraintTerm
 class ModelPredictiveControl
 {
 public:
+
+  static constexpr double SAMPLING_PERIOD = 0.1; // 例子值，请根据实际修改
+  static constexpr unsigned INPUT_SIZE = 2;
+  static constexpr unsigned STATE_SIZE = 6;
+  static constexpr unsigned NB_STEPS = 16;
+  
   ModelPredictiveControl();
 
-  void solve();
+  bool solve();
 
   void phaseDurations(double initSupportDuration,
                       double doubleSupportDuration,
@@ -120,14 +126,13 @@ private:
   void updateVelCost();
   void updateZMPCost();
 
+
+  Eigen::MatrixXd autoSpanQ(const Eigen::MatrixXd& zmpFromState, int horizon);
+  Eigen::VectorXd autoSpanC(const Eigen::VectorXd& zmpRef, int horizon);
   Eigen::VectorXd buildTrajectoryFromSolution(const Eigen::VectorXd &sol);
   Eigen::VectorXd buildControlFromSolution(const Eigen::VectorXd &sol);
 
 private:
-  static constexpr double SAMPLING_PERIOD = 0.1; // 例子值，请根据实际修改
-  static constexpr unsigned INPUT_SIZE = 2;
-  static constexpr unsigned STATE_SIZE = 6;
-  static constexpr unsigned NB_STEPS = 16;
 
   double jerkWeight_=1.;
   double velWeights_=10.;
@@ -181,7 +186,7 @@ private:
   Eigen::MatrixXd dcmFromState_ = Eigen::Matrix<double, 2, STATE_SIZE>::Zero();
   Eigen::MatrixXd zmpFromState_ = Eigen::Matrix<double, 2, STATE_SIZE>::Zero();
 
-  Eigen::Matrix<real_t, Eigen::Dynamic, Eigen::Dynamic> A_qp;
+  Eigen::Matrix<qpOASES::real_t, Eigen::Dynamic, Eigen::Dynamic> A_qp;
   Eigen::VectorXd lbA_qp, ubA_qp;
 
   std::shared_ptr<Preview> solution_ = nullptr;

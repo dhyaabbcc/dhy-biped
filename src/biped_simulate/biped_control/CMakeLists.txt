@@ -69,11 +69,17 @@ add_subdirectory(third_party/qpOASES)
 # add_subdirectory(robotwrapper)
 
 file(GLOB_RECURSE SRC_LIST
-"src/*/*.cpp"
-"src/*/*.h"
-"ConvexMPC/*.cpp"
+# "src/*/*.cpp"
+# "src/*/*.h"
+"src/common/*.cpp"
+"src/interface/*.cpp"
+"src/State/*.cpp"
+"src/common/*.h"
+"src/interface/*.h"
+"src/State/*.h"
+# "ConvexMPC/*.cpp"
 "robotwrapper/*.cpp"
-"wbc/src/*.cpp"
+# "wbc/src/*.cpp"
 )
 add_executable(biped_ctrl src/main.cpp  ${SRC_LIST} )
 add_dependencies(biped_ctrl ${catkin_EXPORTED_TARGETS})

@@ -11,8 +11,16 @@
 
 using HrepXd = std::pair<Eigen::MatrixXd, Eigen::VectorXd>;
 
-struct Contact
+enum class ContactState
 {
+  DoubleSupport,
+  LeftFoot,
+  RightFoot
+};
+
+class Contact
+{
+public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   Contact() = default;
@@ -133,6 +141,6 @@ struct Contact
 inline Contact operator*(const pinocchio::SE3 & X, const Contact & contact)
 {
   Contact result = contact;
-  result.pose = X * contact.pose;
+  result.pose = X.act(contact.pose);
   return result;
 }

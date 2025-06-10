@@ -6,8 +6,9 @@
 #include "Utilities/polynomials.h"
 
 
-struct SwingFoot
+class SwingFoot
 {
+public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   void integrate(double dt);

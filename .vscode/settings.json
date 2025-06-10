@@ -100,9 +100,11 @@
         "netfwd": "cpp",
         "fft": "cpp",
         "numericaldiff": "cpp",
-        "splines": "cpp"
+        "splines": "cpp",
+        "*.txx": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled",
     "C_Cpp.intelliSenseEngine":"Default",
-    "editor.suggest.snippetsPreventQuickSuggestions":true,
+    "editor.suggest.snippetsPreventQuickSuggestions": true,
+    "cmake.sourceDirectory": "/home/xsy/Desktop/catkin_bipedl/src/biped_simulate/biped_control",
 }

@@ -6,8 +6,10 @@
 /** State of the inverted pendulum model.
  *
  */
-struct Pendulum
+class Pendulum
 {
+public:
+
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   Pendulum(const Eigen::Vector3d & com = Eigen::Vector3d::Zero(),

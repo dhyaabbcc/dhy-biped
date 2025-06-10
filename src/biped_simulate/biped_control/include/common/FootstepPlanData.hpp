@@ -23,6 +23,15 @@ struct ContactPlan {
  
 inline std::vector<ContactPlan> loadSimpleFootstepPlan() {
   return {
+    //站立(可能需要)
+    {pinocchio::SE3(Eigen::Matrix3d::Identity(), 
+                   Eigen::Vector3d(-0.04, 0.09, 0.0)), 
+     "LeftFootCenter"},
+     
+    {pinocchio::SE3(Eigen::Matrix3d::Identity(), 
+                   Eigen::Vector3d(-0.04, -0.09, 0.0)), 
+     "RightFootCenter"},
+
     // 初始接触 
     {pinocchio::SE3(Eigen::Matrix3d::Identity(), 
                    Eigen::Vector3d(-0.04, 0.09, 0.0)), 

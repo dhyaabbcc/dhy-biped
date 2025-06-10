@@ -6,8 +6,9 @@
 #include "../messages/LowlevelState.h"
 
 
-struct NetWrenchObserver
+class NetWrenchObserver
 {
+public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   NetWrenchObserver();
