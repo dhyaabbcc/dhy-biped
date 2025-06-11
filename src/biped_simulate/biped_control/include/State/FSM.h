@@ -8,13 +8,18 @@ public:
   FSM(ControlFSMData *controller) : controller_(controller)
   {
     // 构造状态对象，并绑定 controller 指针
+    std::cout << "Initializing FSM..." << std::endl;
+    Initial_ = std::make_shared<Initial>();
+    Standing_ = std::make_shared<Standing>();
     // doubleSupportState_ = std::make_shared<DoubleSupportState>();
     // singleSupportState_ = std::make_shared<SingleSupportState>();
 
+    std::cout << "Constructed state objects" << std::endl;
     Initial_->bindController(this, controller_);
     Standing_->bindController(this, controller_);
     // doubleSupportState_->bindController(this);
     // singleSupportState_->bindController(this);
+    std::cout << "Bound controllers" << std::endl;
     currentState_ = Initial_;
     currentState_->start();
     nextState_ = currentState_;
@@ -34,15 +39,17 @@ public:
         mode_ = FSMMode::CHANGE;
         nextState_ = getNextState(nextStateName_);
       }
+      std::cout << "FSMMode::NORMAL" << std::endl;
     }
     else if (mode_ == FSMMode::CHANGE)
     {
-      // std::cout << "change state" << std::endl;
+      std::cout << "change state" << std::endl;
       currentState_->teardown();
       currentState_ = nextState_;
       currentState_->start();
       mode_ = FSMMode::NORMAL;
       currentState_->run();
+      std::cout << "FSMMode::CHANGE" << std::endl;
     }
   }
 

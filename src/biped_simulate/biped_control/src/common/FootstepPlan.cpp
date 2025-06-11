@@ -19,6 +19,7 @@ void FootstepPlan::load()
         contact.surfaceName = plan.surface;
         contact.swing = plan.swing;
         contacts_.emplace_back(contact);
+        std::cout<<"contacts_.emplace_back(contact); " <<std::endl;
     }
 
   comHeight_ = 0.8; // [m]
@@ -59,6 +60,8 @@ void FootstepPlan::reset(unsigned startIndex)
   nextFootstep_ = startIndex + 1;
   supportContact_ = contacts_[startIndex > 0 ? startIndex - 1 : 0];
   targetContact_ = contacts_[startIndex];
+  std::cout<<"contacts_" << supportContact_.p()<<std::endl;
+
   goToNextFootstep();
 }
 
@@ -107,10 +110,11 @@ void FootstepPlan::updateInitialTransform(const pinocchio::SE3 & X_0_lf,
                                           const pinocchio::SE3 & X_0_rf,
                                           double initHeight)
 {
+  std::cout <<contacts_[0].pose << std::endl;
   pinocchio::SE3 X_0_mid = MyWrapper::interpolate(X_0_lf, X_0_rf, 0.5);
   pinocchio::SE3 X_0_old = MyWrapper::interpolate(contacts_[0].pose, contacts_[1].pose, 0.5);
   pinocchio::SE3 X_delta = makeHorizontal(X_0_old.inverse() * X_0_mid);
-
+  std::cout <<"X_0_mid" << std::endl;
   // BUG here: https://github.com/jrl-umi3218/lipm_walking_controller/issues/37
   // This function should but does not update the reference velocity (refVel)
   // for each contact. Thanks to @Saeed-Mansouri for pointing out this bug. The

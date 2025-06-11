@@ -62,6 +62,7 @@ public:
     sole_.leftAnkleOffset = X_lfc_lf.translation().head<2>();
 
     //设置
+    plan_.load();
     mpc_.sole(sole_);
     stabilizer_.reset(*robot_);
     stabilizer_.sole(sole_);
@@ -183,6 +184,7 @@ public:
   std::shared_ptr<LegController> _legController;
   DesiredStateCommand *_desiredStateCommand = nullptr;
   std::shared_ptr<IOInterface> _interface;
+
   LowlevelCmd _lowCmd;
   LowlevelState _lowState;
   std::shared_ptr<MyWrapper> robot_;

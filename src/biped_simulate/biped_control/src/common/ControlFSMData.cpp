@@ -14,12 +14,18 @@ void ControlFSMData::internalReset()
     q[16] = -0.419;                                // l_j4
     Eigen::VectorXd v = Eigen::VectorXd::Zero(robot_->nv());
     robot_->computeAllTerms(*data_, q, v);
+
+     std::cout << "computeAllTerms" << std::endl;
+
     for (int i = 0; i < 12; i++)
     {
       _lowCmd.motorCmd[i].q = q[7 + i] - _biped.Initialq[i];
     }
     // --- (2) 同步 contact 规划器的支持面位姿
+    std::cout << "_lowCmd.motorCmd" << std::endl;
     loadFootstepPlan(plan_);
+    std::cout << "loadFootstepPlan_end" << std::endl;
+
 
     // --- (3) TSID 任务重置
     postureTask_ = std::make_shared<tsid::tasks::TaskJointPosture>("posture_task", *robot_);
@@ -30,6 +36,8 @@ void ControlFSMData::internalReset()
     postureTask_->setReference(ref);
 
     stabilizer_.reset(*robot_);
+
+    std::cout << "stabilizer_.reset_end" << std::endl;
 
     // --- (4) 控制状态变量重置
 
@@ -52,8 +60,11 @@ void ControlFSMData::internalReset()
     baseObs_.reset(X0_base);
     baseObs_.setLeftFootRatio(leftFootRatio_);
     baseObs_.run(); 
+    std::cout << " baseObs_.run()_end" << std::endl;
 
     updateRealFromKinematics();  // 估计 realCoM, realCoMd
+
+    std::cout << " updateRealFromKinematics_end" << std::endl;
 
     // --- (6) 力/状态估计器更新 stabilizer
     wrenchObs_.update(_lowState, supportContact());
@@ -61,6 +72,7 @@ void ControlFSMData::internalReset()
                            realComd_,
                            wrenchObs_.wrench(),
                            leftFootRatio_);
+    std::cout << " internalReset_end" << std::endl;
 
 }
 
@@ -71,8 +83,12 @@ void ControlFSMData::loadFootstepPlan(FootstepPlan &plan)
     X_0_rf = data_->oMf[robot_->model().getFrameId("rcontactpoint")];
     double initHeight = X_0_lf.translation().z();
     plan.complete(sole_);
+     std::cout << "plan.complete(sole_);" << std::endl;
+      std::cout << X_0_lf<< X_0_rf<<initHeight<< std::endl;
     plan.updateInitialTransform(X_0_lf, X_0_rf, initHeight);
+     std::cout << " plan.updateInitialTransform" << std::endl;
     plan.rewind();
+    std::cout << " plan.rewind" << std::endl;
 }
 
 //estimator_需要替代realrobot实现功能
@@ -189,10 +205,12 @@ void ControlFSMData::tsidsolve(){
   {
     for (int j = 0; j < 6; j++)
     {
-      q[6 * i + 7 + j] = _legController->data[i].q[j] + _biped.Initialq[i];// 可能需要加初始值q
+      q[6 * i + 7 + j] = _legController->data[i].q[j] +  _biped.Initialq[j];// 可能需要加初始值q
       dq[6 * i + 6 + j] = _legController->data[i].qd[j];
     }
   }
+
+  std::cout << "编码器 q" << q << std::endl;
 
   tsid::solvers::HQPData hqpData = tsid_.computeProblemData(t, q, dq);
   tsid::solvers::SolverHQuadProg solver("qp_solver");
@@ -211,6 +229,8 @@ void ControlFSMData::tsidsolve(){
   // 数值积分
   dq += dv * timeStep;
   q = pinocchio::integrate(_biped._Dyptr->model(), q, dq * timeStep); // model 必须匹配
+
+  std::cout << "TSID result q" << q << std::endl;
 
   // 可选：更新
   for (int i = 0; i < 12; i++)

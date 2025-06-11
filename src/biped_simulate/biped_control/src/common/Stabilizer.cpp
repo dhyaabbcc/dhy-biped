@@ -130,7 +130,7 @@ void Stabilizer::addTasks(tsid::InverseDynamicsFormulationAccForce& solver)
 
   if(leftFootInContact) //判断当前支撑需要修改
   {
-    solver.addRigidContact(*contactL); // 添加左脚接触
+    solver.addRigidContact(*contactL, 1e5); // 添加左脚接触
   }
   else
   {
@@ -139,7 +139,7 @@ void Stabilizer::addTasks(tsid::InverseDynamicsFormulationAccForce& solver)
 
   if(rightFootInContact)
   {
-    solver.addRigidContact(*contactR); // 添加右脚接触
+    solver.addRigidContact(*contactR, 1e5); // 添加右脚接触
   }
   else
   {

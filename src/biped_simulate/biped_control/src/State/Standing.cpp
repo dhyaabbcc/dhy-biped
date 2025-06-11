@@ -6,6 +6,7 @@ constexpr double COM_STIFFNESS = 5.;
 
 void Standing::start()
 {
+  std::cout << "Standing::start_begin "<< std::endl;
   auto &ctl = controller();
 
   ctl._interface->zeroCmdPanel();
@@ -20,7 +21,7 @@ void Standing::start()
   isMakingFootContact_ = false;
   leftFootRatio_ = ctl.leftFootRatio();
   startWalking_ = false;
-  if (supportContact.surfaceName == "rcontactpoint")
+  if (supportContact.surfaceName == "rcontactpoint")  
   {
     leftFootContact_ = targetContact;
     rightFootContact_ = supportContact;
@@ -61,6 +62,7 @@ void Standing::teardown()
 // pendulum和stabilizer是否绑定了？
 void Standing::runState()
 {
+  std::cout << "Standing::runState_begin "<< std::endl;
   auto &ctl = controller();
   ctl._legController->updateData(&ctl._lowState);
   ctl._stateEstimator->run();

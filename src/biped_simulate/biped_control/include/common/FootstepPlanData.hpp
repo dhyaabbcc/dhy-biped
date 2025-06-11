@@ -26,73 +26,73 @@ inline std::vector<ContactPlan> loadSimpleFootstepPlan() {
     //站立(可能需要)
     {pinocchio::SE3(Eigen::Matrix3d::Identity(), 
                    Eigen::Vector3d(-0.04, 0.09, 0.0)), 
-     "LeftFootCenter"},
+     "lcontactpoint"},
      
     {pinocchio::SE3(Eigen::Matrix3d::Identity(), 
                    Eigen::Vector3d(-0.04, -0.09, 0.0)), 
-     "RightFootCenter"},
+     "rcontactpoint"},
 
     // 初始接触 
     {pinocchio::SE3(Eigen::Matrix3d::Identity(), 
                    Eigen::Vector3d(-0.04, 0.09, 0.0)), 
-     "LeftFootCenter"},
+     "lcontactpoint"},
      
     {pinocchio::SE3(Eigen::Matrix3d::Identity(), 
                    Eigen::Vector3d(-0.04, -0.09, 0.0)), 
-     "RightFootCenter",
+     "rcontactpoint",
      SwingPlan{Eigen::Vector3d(-0.03, 0.0, 0.0), 0.6}},
     
     // 第一步 
     {pinocchio::SE3(Eigen::Matrix3d::Identity(), 
                    Eigen::Vector3d(0.24, 0.09, 0.185)), 
-     "LeftFootCenter",
+     "lcontactpoint",
      SwingPlan{Eigen::Vector3d(-0.02, 0.0, 0.0)}},
      
     {pinocchio::SE3(Eigen::Matrix3d::Identity(), 
                    Eigen::Vector3d(0.24, -0.09, 0.185)), 
-     "RightFootCenter",
+     "rcontactpoint",
      SwingPlan{Eigen::Vector3d(-0.03, 0.0, 0.0), 0.6}},
     
     // 第二步  
     {pinocchio::SE3(Eigen::Matrix3d::Identity(), 
                    Eigen::Vector3d(0.48, 0.09, 0.370)), 
-     "LeftFootCenter",
+     "lcontactpoint",
      SwingPlan{Eigen::Vector3d(-0.02, 0.0, 0.0)}},
      
     {pinocchio::SE3(Eigen::Matrix3d::Identity(), 
                    Eigen::Vector3d(0.48, -0.09, 0.370)), 
-     "RightFootCenter",
+     "rcontactpoint",
      SwingPlan{Eigen::Vector3d(-0.03, 0.0, 0.0), 0.6}},
     
     // 第三步 
     {pinocchio::SE3(Eigen::Matrix3d::Identity(), 
                    Eigen::Vector3d(0.72, 0.09, 0.555)), 
-     "LeftFootCenter",
+     "lcontactpoint",
      SwingPlan{Eigen::Vector3d(-0.02, 0.0, 0.0)}},
      
     {pinocchio::SE3(Eigen::Matrix3d::Identity(), 
                    Eigen::Vector3d(0.72, -0.09, 0.555)), 
-     "RightFootCenter",
+     "rcontactpoint",
      SwingPlan{Eigen::Vector3d(-0.03, 0.0, 0.0), 0.6}},
     
     // 第四步（带高度参数）
     {pinocchio::SE3(Eigen::Matrix3d::Identity(), 
                    Eigen::Vector3d(0.96, 0.09, 0.740)), 
-     "LeftFootCenter",
+     "lcontactpoint",
      SwingPlan{Eigen::Vector3d(-0.02, 0.0, 0.0), 0.0, 0.2}},
      
     {pinocchio::SE3(Eigen::Matrix3d::Identity(), 
                    Eigen::Vector3d(0.96, -0.09, 0.740)), 
-     "RightFootCenter",
+     "rcontactpoint",
      SwingPlan{Eigen::Vector3d(-0.03, 0.0, 0.0), 0.6, 0.2}},
     
     // 最终接触 
     {pinocchio::SE3(Eigen::Matrix3d::Identity(), 
                    Eigen::Vector3d(1.20, 0.09, 0.885)), 
-     "LeftFootCenter"},
+     "lcontactpoint"},
      
     {pinocchio::SE3(Eigen::Matrix3d::Identity(), 
                    Eigen::Vector3d(1.20, -0.09, 0.885)), 
-     "RightFootCenter"}
+     "rcontactpoint"}
   };
 }

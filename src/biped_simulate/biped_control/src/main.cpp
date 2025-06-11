@@ -84,6 +84,8 @@ int main(int argc, char **argv)
     
     ControlFSMData *_controlData = new ControlFSMData(robot, tsid, stateEstimator, plan, pendulum,
                                                       baseObs, wrenchObs, stabilizer, *state, mpc, dt);
+    _controlData->_interface= IOptr;
+    _controlData->_legController = Legctrlptr;
 
     std::cout<<"\nbegin to set FSM\n";
     FSM* _FSMController = new FSM(_controlData);
@@ -102,7 +104,9 @@ int main(int argc, char **argv)
     _FSMController->run();
    //logger.Savedata();
    // logger.Senddata();
-    looprate1.sleep();
+     std::cout << "Current time: " << ros::Time::now() << std::endl;
+    //looprate1.sleep();
+    usleep(5000);
     std::cout<<"\n------------------------------\n";
     }
 
