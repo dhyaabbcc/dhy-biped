@@ -50,7 +50,7 @@ public:
   static constexpr double MIN_DSP_FZ = 15.; /**< Minimum normal contact force in [N] for DSP, used to avoid low-force
                                                targets when close to contact switches. */
 
-  Stabilizer(Biped &controlRobot, Pendulum &pendulum, double dt, LowlevelState &state);
+  Stabilizer(Biped &controlRobot, Pendulum &pendulum, double dt, LowlevelState *state);
 
   void addTasks(tsid::InverseDynamicsFormulationAccForce & solver);
 
@@ -208,7 +208,7 @@ private:
   FDQPWeights fdqpWeights_;
   LeakyIntegrator zmpccIntegrator_;
   StationaryOffsetFilter dcmDerivator_;
-  LowlevelState state_;
+  LowlevelState *state_;
 
   const Pendulum & pendulum_;
   const Biped & controlRobot_;

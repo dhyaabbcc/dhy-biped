@@ -133,7 +133,7 @@ void LegController::updateCommand(LowlevelCmd *cmd, bool useWBC)
         Vec6<double> legtau = data[i].J_force_moment.transpose() * footForce; // force moment from stance leg
         for (int j = 0; j < 6; j++)
         {
-            std::cout << "legtau" << j << ": " << legtau(j) << std::endl;
+            //std::cout << "legtau" << j << ": " << legtau(j) << std::endl;
         }
 
         if (commands[i].kpCartesian(0, 0) != 0 || commands[i].kdCartesian(0, 0) != 0) // 摆动项

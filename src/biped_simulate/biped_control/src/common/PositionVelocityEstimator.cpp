@@ -6,6 +6,7 @@ void CheaterPositionVelocityEstimator::run() {
     this->_stateEstimatorData.result->position[i] = this->_stateEstimatorData.lowState->position[i];
     this->_stateEstimatorData.result->vWorld[i] = this->_stateEstimatorData.lowState->vWorld[i];
     this->_stateEstimatorData.result->aWorld[i]=this->_stateEstimatorData.lowState->imu.accelerometer[i];
+     std::cout << "PositionVelocityEstimator q" << this->_stateEstimatorData.lowState->position[i] << std::endl;
   }
 
   this->_stateEstimatorData.result->vBody=

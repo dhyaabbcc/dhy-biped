@@ -29,6 +29,7 @@ public:
   void run()
   {
     controller_->sendRecv();
+    //此处添加robot_->computeAllTerms(*data_, q, dq)
     if (mode_ == FSMMode::NORMAL)
     {
       currentState_->run();

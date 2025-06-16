@@ -60,8 +60,8 @@ void CheatIO::sendCmd(const LowlevelCmd *cmd)
     {
         _servo_pub[m].publish(_lowCmd.motorCmd[m]);
     }
-
     ros::spinOnce();
+    std::cout << "success sendCmd----------------------------------------------" << std::endl;
 }
 
 void CheatIO::recvState(LowlevelState *state)
@@ -83,6 +83,7 @@ void CheatIO::recvState(LowlevelState *state)
     }
     state->imu.quaternion[3] = _highState.imu.quaternion[3];
     recvfeetState(state);
+    std::cout << "success recvState----------------------------------------------" << std::endl;
 }
 
 void CheatIO::recvfeetState(LowlevelState *state)

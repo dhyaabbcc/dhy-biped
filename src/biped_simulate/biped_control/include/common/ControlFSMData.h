@@ -38,18 +38,59 @@ public:
                  FloatingBaseObserver &baseObs,
                  NetWrenchObserver &wrenchObs,
                  Stabilizer &stabilizer,
-                 LowlevelState &lowState,
+                 LowlevelState *lowState,
                  ModelPredictiveControl &mpc,
+                 std::shared_ptr<IOInterface> IOptr,
                  double dt,
                  double leftFootRatio = 0.5)
       : _biped(biped), tsid_(tsid), _stateEstimator(estimatorcontainer), plan_(plan), pendulum_(pendulum),
         baseObs_(baseObs), wrenchObs_(wrenchObs), stabilizer_(stabilizer), _lowState(lowState), 
         mpc_(mpc), leftFootRatio_(leftFootRatio), timeStep(dt),comVelFilter_(dt,/* cutoff period = */ 0.01), 
-        robot_(biped._Dyptr), data_(biped._Dataptr)
+        robot_(biped._Dyptr), data_(biped._Dataptr), _interface(IOptr)
   {
+
+    // --- 初始化pino模型
+    Eigen::VectorXd q = Eigen::VectorXd::Zero(robot_->nq());
+    Eigen::VectorXd v = Eigen::VectorXd::Zero(robot_->nv());
+    q.head<3>() = Eigen::Vector3d(0, 0, -1.12);    // 位置 (x,y,z) 1.12
+    q.segment<4>(3) = Eigen::Vector4d(0, 0, 0, 1); // 旋转 (单位四元数)
+
+    // //设置基座
+    // sendRecv();
+    // for(int i=0;i<3;i++){
+    // std::cout << "_lowState" <<_lowState->position[i]<< std::endl;
+    // std::cout << "_lowState" <<_lowState->rpy[i] << std::endl;
+    // }
+
+    // _stateEstimator->run();
+    // auto &seResult = _stateEstimator->getResult();
+    // Eigen::Vector4d Base_ori;
+    // Eigen::Vector3d Base_omega = seResult.omegaWorld;
+    // Base_ori.block(0, 0, 3, 1) = seResult.orientation.block(1, 0, 3, 1); 
+    // Base_ori[3] = seResult.orientation[0];
+    // q.block(0, 0, 3, 1) = seResult.position;
+    // q.block(3, 0, 4, 1) = Base_ori;
+    // v.block(3, 0, 3, 1) = Base_omega;
+    // //设置结束
+
+    q[9] = -0.338;                                 // r_j2
+    q[10] = 0.7616;                                 // r_j3
+    q[11] = -0.425;                                // r_j4
+    q[15] = -0.338;                                // l_j2
+    q[16] = 0.7616;                                 // l_j3
+    q[17] = -0.425;                                // l_j4
+    robot_->computeAllTerms(*data_, q, v);
+
+    std::cout << "computeAllTerms" << std::endl;
+
     pinocchio::SE3 X_0_lfc = data_->oMf[robot_->model().getFrameId("lcontactpoint")];
     pinocchio::SE3 X_0_rfc = data_->oMf[robot_->model().getFrameId("rcontactpoint")];
     pinocchio::SE3 X_0_lf = data_->oMf[robot_->model().getFrameId("l_foot")];
+
+    std::cout << "X_0_lfc" <<X_0_lfc<< std::endl;
+    std::cout << "X_0_rfc" <<X_0_rfc<< std::endl;
+    std::cout << "X_0_lf" <<X_0_lf<< std::endl;
+
 
     // 左足踝相对于足底中心（lfc）的位置
     pinocchio::SE3 X_lfc_lf = X_0_lfc.inverse() * X_0_lf;
@@ -101,8 +142,8 @@ public:
 
   double measuredLeftFootRatio()
   {
-    double leftFootPressure = _lowState.feettwist[8];
-    double rightFootPressure = _lowState.feettwist[2];
+    double leftFootPressure = _lowState->feettwist[8];
+    double rightFootPressure = _lowState->feettwist[2];
     leftFootPressure = std::max(0., leftFootPressure);
     rightFootPressure = std::max(0., rightFootPressure);
     return leftFootPressure / (leftFootPressure + rightFootPressure);
@@ -166,7 +207,7 @@ public:
 
   void sendRecv()
   {
-    _interface->sendRecv(&_lowCmd,& _lowState);
+    _interface->sendRecv(&_lowCmd, _lowState);
   }
 
   void internalReset();
@@ -179,29 +220,29 @@ public:
   void tsidsolve();
 
 
-  Biped _biped;
+  Biped &_biped;
   std::shared_ptr<StateEstimatorContainer> _stateEstimator;
   std::shared_ptr<LegController> _legController;
   DesiredStateCommand *_desiredStateCommand = nullptr;
   std::shared_ptr<IOInterface> _interface;
 
   LowlevelCmd _lowCmd;
-  LowlevelState _lowState;
+  LowlevelState *_lowState;
   std::shared_ptr<MyWrapper> robot_;
   std::shared_ptr<pinocchio::Data> data_;
 
-  tsid::InverseDynamicsFormulationAccForce tsid_;
+  tsid::InverseDynamicsFormulationAccForce &tsid_;
   std::shared_ptr<tsid::tasks::TaskJointPosture> postureTask_;
 
   std::shared_ptr<Preview> preview_;
 
-  FootstepPlan plan_;
-  Pendulum pendulum_;
+  FootstepPlan &plan_;
+  Pendulum &pendulum_;
   LowPassVelocityFilter<Eigen::Vector3d> comVelFilter_;
-  FloatingBaseObserver baseObs_;
-  NetWrenchObserver wrenchObs_;
-  Stabilizer stabilizer_;
-  ModelPredictiveControl mpc_;
+  FloatingBaseObserver &baseObs_;
+  NetWrenchObserver &wrenchObs_;
+  Stabilizer &stabilizer_;
+  ModelPredictiveControl &mpc_;
   Sole sole_;
 
   double leftFootRatio_;

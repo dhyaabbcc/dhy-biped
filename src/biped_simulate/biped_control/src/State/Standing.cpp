@@ -64,7 +64,7 @@ void Standing::runState()
 {
   std::cout << "Standing::runState_begin "<< std::endl;
   auto &ctl = controller();
-  ctl._legController->updateData(&ctl._lowState);
+  ctl._legController->updateData(ctl._lowState);
   ctl._stateEstimator->run();
   auto &pendulum = ctl.pendulum();
 
@@ -85,7 +85,7 @@ void Standing::runState()
   ctl.stabilizer().run();
   ctl.tsidsolve();
 
-  ctl._legController->updateCommand(&ctl._lowCmd);
+  //ctl._legController->updateCommand(&ctl._lowCmd, false);
 }
 
 void Standing::updateTarget(double leftFootRatio)

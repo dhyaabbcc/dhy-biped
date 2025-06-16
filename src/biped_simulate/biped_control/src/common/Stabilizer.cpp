@@ -2,7 +2,7 @@
 
 using namespace qpOASES;
 
-Stabilizer::Stabilizer(Biped &controlRobot, Pendulum &pendulum, double dt, LowlevelState &state)
+Stabilizer::Stabilizer(Biped &controlRobot, Pendulum &pendulum, double dt, LowlevelState *state)
     : dcmIntegrator_(dt, /* timeConstant = */ 5.), dcmDerivator_(dt, /* timeConstant = */ 1.), pendulum_(pendulum),
       controlRobot_(controlRobot), dt_(dt), mass_(controlRobot.mass), state_(state)
 {
@@ -37,8 +37,8 @@ void Stabilizer::reconfigure()
   //tasks
   comStiffness_ = Eigen::Vector3d(1000.0, 1000.0, 100.0);
   comWeight_=1000.0;
-  double d=300.0;
-  double k=1.0;
+  double d=11.0;
+  double k=30.0;
   contactDamping_ = pinocchio::Motion(Eigen::Vector3d::Constant(d), Eigen::Vector3d::Constant(d)); 
   contactStiffness_ = pinocchio::Motion(Eigen::Vector3d::Constant(k), Eigen::Vector3d::Constant(k));
   swingFootStiffness_= 2000.0;
@@ -52,7 +52,8 @@ void Stabilizer::reset(MyWrapper & robot)
   // === 1. 创建 CoM 任务 ===
   comTask = std::make_shared<tsid::tasks::TaskComEquality>("task-com", robot);
   comTask->Kp(comStiffness_);
-  comTask->Kd(2.0 * comStiffness_.cwiseSqrt());
+  //comTask->Kd(2.0 * comStiffness_.cwiseSqrt());
+  comTask->Kd(Eigen::Vector3d(300.0, 300.0, 30.0));
 
   // === 2. 创建左右足 CoP 任务 ===
   leftFootTask = std::make_shared<tsid::tasks::TaskSE3Equality>("LeftFoot", robot, "lcontactpoint");
@@ -300,8 +301,8 @@ void Stabilizer::setSupportFootGains()
 
 void Stabilizer::checkInTheAir()
 {
-  double LFz = state_.feettwist[2];
-  double RFz = state_.feettwist[8];
+  double LFz = state_->feettwist[2];
+  double RFz = state_->feettwist[8];
   inTheAir_ = (LFz < MIN_DSP_FZ && RFz < MIN_DSP_FZ);
 }
 

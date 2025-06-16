@@ -33,7 +33,7 @@ void Initial::teardown()
 void Initial::runState()
 {
   auto &ctl = controller();
-  ctl._legController->updateData(&ctl._lowState);
+  ctl._legController->updateData(ctl._lowState);
   ctl._stateEstimator->run();
 
   postureTaskIsActive_ = (ctl.postureTask_->velocity().norm() > 1e-2);
@@ -50,7 +50,7 @@ void Initial::runState()
   {
     startStanding_ = true;
   }
-  ctl._legController->updateCommand(&ctl._lowCmd);
+  //ctl._legController->updateCommand(&ctl._lowCmd, false);
   std::cout << "ctl._legController->updateCommand_end" << std::endl;
   std::cout << startStanding_ << std::endl;
   std::cout << postureTaskIsActive_ << std::endl;

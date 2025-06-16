@@ -78,7 +78,8 @@ class GenericEstimator{
     virtual void run() = 0;
     virtual void setup() = 0;
 
-    void setData(StateEstimatorData data) {_stateEstimatorData = data;};
+    void setData(StateEstimatorData data) {_stateEstimatorData = data;
+     std::cout << "[setData] lowState ptr = " << data.lowState << std::endl;};
 
     virtual ~GenericEstimator() = default;
     StateEstimatorData _stateEstimatorData;

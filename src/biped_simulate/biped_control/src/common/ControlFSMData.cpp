@@ -4,23 +4,23 @@ void ControlFSMData::internalReset()
 {
     // --- (1) 设置浮动基位姿，利用双足估计初始base位姿
     Eigen::VectorXd q = Eigen::VectorXd::Zero(robot_->nq());
-    q.head<3>() = Eigen::Vector3d(0, 0, -1.12);    // 位置 (x,y,z) 1.12
-    q.segment<4>(3) = Eigen::Vector4d(1, 0, 0, 0); // 旋转 (单位四元数)
-    q[7] = -0.338;                                 // r_j0
+    q.head<3>() = Eigen::Vector3d(0, 0, -1.12);    // 位置 (x,y,z) 1.12（+-未知）
+    q.segment<4>(3) = Eigen::Vector4d(0, 0, 0, 1); // 旋转 (单位四元数)
+    q[9] = -0.338;                                 // r_j2
     q[10] = 0.762;                                 // r_j3
     q[11] = -0.419;                                // r_j4
-    q[12] = -0.338;                                // l_j0
-    q[15] = 0.762;                                 // l_j3
-    q[16] = -0.419;                                // l_j4
+    q[15] = -0.338;                                // l_j2
+    q[16] = 0.762;                                 // l_j3
+    q[17] = -0.419;                                // l_j4
     Eigen::VectorXd v = Eigen::VectorXd::Zero(robot_->nv());
     robot_->computeAllTerms(*data_, q, v);
 
      std::cout << "computeAllTerms" << std::endl;
 
-    for (int i = 0; i < 12; i++)
-    {
-      _lowCmd.motorCmd[i].q = q[7 + i] - _biped.Initialq[i];
-    }
+     for (int i = 0; i < 12; i++)
+     {
+       _lowCmd.motorCmd[i].q = q[7 + i] - _biped.Initialq[i % 6];
+     }
     // --- (2) 同步 contact 规划器的支持面位姿
     std::cout << "_lowCmd.motorCmd" << std::endl;
     loadFootstepPlan(plan_);
@@ -34,8 +34,18 @@ void ControlFSMData::internalReset()
     tsid::trajectories::TrajectorySample ref(halfSit.size());
     ref.setValue(halfSit);
     postureTask_->setReference(ref);
+    Eigen::VectorXd poskp(12);
+    poskp << 10, 5, 5, 1, 10, 10, 10, 5, 5, 1, 10, 10;
+    postureTask_->Kp(poskp);
+
+    Eigen::VectorXd poskd(12);
+    poskd << 6.32, 4.47, 4.47, 2, 6.32, 6.32, 6.32, 4.47, 4.47, 2, 6.32, 6.32;
+    postureTask_->Kd(poskd);
 
     stabilizer_.reset(*robot_);
+
+    //临时添加
+    tsid_.addMotionTask(*postureTask_, 10, 1.0);
 
     std::cout << "stabilizer_.reset_end" << std::endl;
 
@@ -67,7 +77,7 @@ void ControlFSMData::internalReset()
     std::cout << " updateRealFromKinematics_end" << std::endl;
 
     // --- (6) 力/状态估计器更新 stabilizer
-    wrenchObs_.update(_lowState, supportContact());
+    wrenchObs_.update(*_lowState, supportContact());
     stabilizer_.updateState(realCom_,
                            realComd_,
                            wrenchObs_.wrench(),
@@ -123,8 +133,8 @@ void ControlFSMData::warnIfRobotIsInTheAir()
 {
   static bool isInTheAir = false;
   constexpr double CONTACT_THRESHOLD = 30.; // [N]
-  double leftFootForce = _lowState.feettwist[8];
-  double rightFootForce = _lowState.feettwist[2];
+  double leftFootForce = _lowState->feettwist[8];
+  double rightFootForce = _lowState->feettwist[2];
   if(leftFootForce < CONTACT_THRESHOLD && rightFootForce < CONTACT_THRESHOLD)
   {
     if(!isInTheAir)
@@ -195,12 +205,35 @@ void ControlFSMData::tsidsolve(){
   Eigen::VectorXd dq=Eigen::VectorXd::Zero(robot_->nv());
   auto &seResult = this->_stateEstimator->getResult();
 
-  Eigen::Quaterniond quat(baseObs_.orientation());
-  quat.normalize();
-  q.head<3>() = baseObs_.position();
-  q.segment<4>(3) << quat.w(), quat.x(), quat.y(), quat.z();
-  dq.head<3>().setZero();
-  dq.segment<3>(3) = seResult.omegaWorld;
+  // //锚点法估计
+  // Eigen::Quaterniond quat(baseObs_.orientation());
+  // quat.normalize();
+  // q.head<3>() = baseObs_.position();
+  // q.segment<4>(3) << quat.w(), quat.x(), quat.y(), quat.z();
+
+  // // q.head<3>() =seResult.position;
+  // // q[2]-=1.12;
+  // // q.segment<4>(3) = seResult.orientation;
+
+  // dq.head<3>().setZero();
+  // dq.segment<3>(3) = seResult.omegaWorld;
+
+    //设置基座（假设理想位姿估计）
+    Eigen::Quaterniond quat(seResult.orientation);
+    quat.normalize();
+    Eigen::Vector4d Base_ori;
+    Eigen::Vector3d Base_omega = seResult.omegaWorld;
+    Base_ori.block(0, 0, 3, 1) = seResult.orientation.block(1, 0, 3, 1); 
+    Base_ori[3] = seResult.orientation[0];
+    q.block(0, 0, 3, 1) = seResult.position;
+    q.block<4, 1>(3, 0) << quat.x(), quat.y(), quat.z(), quat.w();
+    //q.block(3, 0, 4, 1) = Base_ori;
+    dq.block(3, 0, 3, 1) = Base_omega;
+    //设置结束
+
+
+
+
   for (int i = 0; i < 2; i++)
   {
     for (int j = 0; j < 6; j++)
@@ -210,8 +243,14 @@ void ControlFSMData::tsidsolve(){
     }
   }
 
+  for (int i=0;i<3;i++){
+  std::cout << "_lowState q" << _lowState->position[i] << std::endl;
+  std::cout << "_lowState ori" << _lowState->rpy[i] << std::endl;
+  }
+  std::cout << "imu q" << seResult.position << std::endl;
+  std::cout << "imu ori" << seResult.orientation << std::endl;
   std::cout << "编码器 q" << q << std::endl;
-
+  std::cout << "期望支撑位置" << supportContact().pose << std::endl;
   tsid::solvers::HQPData hqpData = tsid_.computeProblemData(t, q, dq);
   tsid::solvers::SolverHQuadProg solver("qp_solver");
   solver.resize(tsid_.nVar(), tsid_.nEq(), tsid_.nIn());
@@ -219,6 +258,7 @@ void ControlFSMData::tsidsolve(){
   tsid::solvers::HQPOutput result = solver.solve(hqpData);
 
   Eigen::VectorXd dv = tsid_.getAccelerations(result);
+
 
   std::cout << "Optimal joint accelerations dv:\n"
             << dv.transpose() << std::endl;
@@ -233,13 +273,32 @@ void ControlFSMData::tsidsolve(){
   std::cout << "TSID result q" << q << std::endl;
 
   // 可选：更新
-  for (int i = 0; i < 12; i++)
+
+  for (int i = 0; i < 2; i++)
   {
-    _lowCmd.motorCmd[i].q = q[7 + i] - _biped.Initialq[i];
-    _lowCmd.motorCmd[i].dq = dq[6 + i]; // 速度可以不要
+    for (int j = 0; j < 6; j++)
+    {
+      _lowCmd.motorCmd[i * 6 + j].q = q[7 + i * 6 + j] - _biped.Initialq[j];
+      //_lowCmd.motorCmd[i * 6 + j].dq = dq[6 + i * 6 + j]; // 速度可以不要
+      //_lowCmd.motorCmd[i * 6 + j].Kp = 10;
+      //_lowCmd.motorCmd[i * 6 + j].tau = 10000; // 速度可以不要
+      // _lowCmd->motorCmd[i * 6 + j].Kd = qKd[i].at(j);
+      // std::cout << "----------------------------------------------------------" << std::endl;
+      // std::cout << _lowCmd.motorCmd[i * 6 + j].q << std::endl;
+    }
+    _lowCmd.motorCmd[i*6+0].Kp= 1;
+    _lowCmd.motorCmd[i*6+1].Kp= 1;
+    _lowCmd.motorCmd[i*6+2].Kp= 1;
+    _lowCmd.motorCmd[i*6+3].Kp= 1;
+    _lowCmd.motorCmd[i*6+4].Kp= 1;
+    _lowCmd.motorCmd[i*6+5].Kp= 0.1;
   }
 
-  robot_->computeAllTerms(*data_, q, dq);
+  robot_->computeAllTerms(*data_, q, dq);//不该更新期望值，而是实际采集值
 
+  pinocchio::SE3 actualTargetPose = data_->oMf[robot_->model().getFrameId("lcontactpoint")];
+  std::cout << "actualPose" << actualTargetPose << std::endl;
+
+  
   std::cout << "TSID integration done. q and dq updated." << std::endl;
 }

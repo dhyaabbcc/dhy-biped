@@ -65,6 +65,7 @@ int main(int argc, char **argv)
     auto Legctrlptr = std::make_shared<LegController>(robot);
     LowlevelCmd *cmd = new LowlevelCmd();
     LowlevelState *state = new LowlevelState();
+
     StateEstimate stateEstimate;
     shared_ptr<StateEstimatorContainer> stateEstimator= std::make_shared<StateEstimatorContainer>(state,
                                                                           Legctrlptr->data,
@@ -79,12 +80,12 @@ int main(int argc, char **argv)
     Pendulum pendulum;
     FloatingBaseObserver baseObs(state, stateEstimator, robot);
     NetWrenchObserver wrenchObs;
-    Stabilizer stabilizer(robot, pendulum, dt, *state);
+    Stabilizer stabilizer(robot, pendulum, dt, state);
     ModelPredictiveControl mpc;
-    
+
     ControlFSMData *_controlData = new ControlFSMData(robot, tsid, stateEstimator, plan, pendulum,
-                                                      baseObs, wrenchObs, stabilizer, *state, mpc, dt);
-    _controlData->_interface= IOptr;
+                                                      baseObs, wrenchObs, stabilizer, state, mpc, std::static_pointer_cast<IOInterface>(IOptr), dt);
+    //_controlData->_interface= IOptr; 已在初始化中添加
     _controlData->_legController = Legctrlptr;
 
     std::cout<<"\nbegin to set FSM\n";
@@ -105,8 +106,8 @@ int main(int argc, char **argv)
    //logger.Savedata();
    // logger.Senddata();
      std::cout << "Current time: " << ros::Time::now() << std::endl;
-    //looprate1.sleep();
-    usleep(5000);
+    looprate1.sleep();
+    //usleep(5000);
     std::cout<<"\n------------------------------\n";
     }
 
